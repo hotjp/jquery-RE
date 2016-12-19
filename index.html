@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/ruleEditor.css">
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="js/sql.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="js/jquery.condition.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<script>
+			var list = new $.RuleEditor({
+				  // 业务模型数据
+					sysModel :{
+					    no: "WFTEST",
+					    name: "工作流测试"
+					 },
+					   // 业务模型字段清单，可在表达式中选取的字段必有dataSource
+  						// dataSource -> NUMBER数值 TEXT文本 DATE日期 MASTERDATA:<MASTERDATA_NO>主数据
+					sysModelFields : [
+					    {name: "ID", dbName: "TEST_ID", dbType: "NUMBER", dbPrecision: 18, dbScale: 0, dataSource: "NUMBER"},
+					    {name: "名称", dbName: "TEST_NAME", dbType: "VARCHAR2", dbPrecision: 60, dbScale: 0, dataSource: "TEXT"},
+					    {name: "备注", dbName: "TEST_REMARK", dbType: "VARCHAR2", dbPrecision: 600, dbScale: 0, dataSource: "TEXT"},
+					    {name: "费用类型", dbName: "FEE_TYPE_ID", dbType: "NUMBER", dbPrecision: 18, dbScale: 0, dataSource: "MASTERDATA:CODE_FEE_TYPE_LIST"},
+					    {name: "费用金额", dbName: "FEE_AMOUNT", dbType: "NUMBER", dbPrecision: 18, dbScale: 2, dataSource: "NUMBER"},
+					    {name: "发生部门", dbName: "BELONG_DEPT_ID", dbType: "NUMBER", dbPrecision: 18, dbScale: 0, dataSource: "MASTERDATA:DEPT_LIST"},
+					    {name: "部门", dbName: "DEPT_ID", dbType: "NUMBER", dbPrecision: 18, dbScale: 0, dataSource: "MASTERDATA:DEPT_LIST"},
+					    {name: "制单人", dbName: "CREATE_USER_ID", dbType: "NUMBER", dbPrecision: 18, dbScale: 0, dataSource: "MASTERDATA:USER_LIST"},
+					    {name: "制单人角色", dbName: "CREATE_USER_ROLE_ID", dbType: "NUMBER", dbPrecision: 18, dbScale: 0, dataSource: "MASTERDATA:ROLE_LIST"},
+					    {name: "分公司", dbName: "COMPANY_ID", dbType: "NUMBER", dbPrecision: 18, dbScale: 0, dataSource: "MASTERDATA:COMPANY_LIST"},
+					    {name: "数据版本号", dbName: "VERSION_ID", dbType: "NUMBER", dbPrecision: 10, dbScale: 0, dataSource: ""}
+					  ],
+					  // 主数据清单
+					  masterDataList :[
+					    {no: "DEPT_LIST", name: "部门"},
+					    {no: "CODE_FEE_TYPE_LIST", name: "费用类型"},
+					    {no: "USER_LIST", name: "用户"},
+					    {no: "ROLE_LIST", name: "角色"},
+					    {no: "COMPANY_LIST", name: "分公司"}
+					  ]
+				}).init();
+		</script>
+		<br>
+		<br>
+		<br>
+		<br>
+	</body>
+</html>
