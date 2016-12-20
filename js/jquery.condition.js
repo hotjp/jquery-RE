@@ -285,13 +285,13 @@
 						};
 					})(config.OPERATORS,op);
 				return (function(len,values){
-					var html = [],btn='',input = '<input type="text">',addBtn = '<input type="button" value="增加" />';
+					var html = [],btn='',addBtn = '<input type="button" value="增加" />';
 						if ('string' == typeof len) {
 							len = values.length ? values.length : 1;
 							btn = addBtn;
 						};
 						for (var i = 0; i < len; i++) {
-							html[i] = $(input).;
+							html[i] = '<input data-value="'+ values[i].value +'" type="text" value="'+ values[i].text +'">';
 						};
 						html.push(btn);
 					return html.join('')
