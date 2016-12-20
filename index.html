@@ -38,12 +38,72 @@
 					    {no: "USER_LIST", name: "用户"},
 					    {no: "ROLE_LIST", name: "角色"},
 					    {no: "COMPANY_LIST", name: "分公司"}
-					  ]
+					  ],
+					   // 规则数据
+					  // 每个表达式都有conj属性，作为表达式开头的连接条件，列表中第一条表达式的conj属性不使用
+					  // 存在子expr的expr为表达式组，如果有多个子expr则加套括号。无子expr的expr为表达式，必须设置field/op/values属性
+					  // 对于一元操作符，values只使用第一个值。如果value是选择的对象，则将对象直接存入表达式，并使用其value属性作为参数值，text属性作为显示名
+					  ruleExprs : [{
+					    conj: "AND",
+					    field: "EXPENSE_TYPE_ID",
+					    op: "=",
+					    values: [{value: 1, text: "差旅费"}]
+					  }, {
+					    conj: "AND",
+					    exprs: [{
+					      conj: "AND",
+					      exprs: [
+					        {conj: "AND", field: "DEPT_ID", op: "IN", values: [{value: 1, text: "总经办"}, {value: 2, text: "市场部"}]},
+					        {conj: "AND", field: "FEE_AMOUNT", op: "BETWEEN", values: [0, 1000]},
+					        {conj: "AND", field: "CREATE_USER_ROLE_ID", op: "IN", values: [{value: 1, text: "管理员"}, {value: 2, text: "市场主管"}]}
+					      ]
+					    }, {
+					      conj: "OR",
+					      field: "CREATE_USER_ID",
+					      op: "=",
+					      values: [{value: 13, text: "管理员"}]
+					    }]
+					  }]
 				}).init();
 		</script>
-		<br>
-		<br>
-		<br>
-		<br>
+
+		<!-- <dl class="RE_group">
+			<dt class="RE_group_tit">
+				<div class="group_conditions">
+					<input data-condition="AND" type="button" value="AND">
+					<input data-condition="OR" type="button" value="OR">
+				</div>
+				<input data-add="rule" type="button" value="添加条件">
+				<input data-add="group" type="button" value="添加组">
+				<input data-delete="group"  type="button" value="删除">
+			</dt>
+			<dd class="RE_group_body">
+				<ul class="RE_group_list">
+					<li class="RE_rule">
+						<dl class="RE_item">
+							<dt class="RE_rule_tit">
+								<input data-delete="rule"  type="button" value="删除">
+							</dt>
+							<dd class="RE_rule_body">
+								<div class="rule_fliter">
+									<select name="" id="">
+										<option value="0">0</option>
+									</select>
+								</div>
+								<div class="rule_operator">
+									<select name="" id="">
+										<option value="0">0</option>
+									</select>
+								</div>
+								<div class="rule_value">
+									
+								</div>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</dd>
+		</dl> -->
+		
 	</body>
 </html>
