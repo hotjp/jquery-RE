@@ -3,10 +3,9 @@
 	<head>
 		<meta charset="utf-8" />
 		<title></title>
-		<link rel="stylesheet" href="css/ruleEditor.css">
+		<link rel="stylesheet" href="css/rule_editor.css">
 		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
-		<!--<script src="js/sql.js" type="text/javascript" charset="utf-8"></script>-->
-		<script src="js/jquery.condition.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.rule_editor.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
 		<script>
@@ -48,13 +47,15 @@
 					    field: "EXPENSE_TYPE_ID",
 					    op: "=",
 					    values: [{value: 1, text: "差旅费"}]
-					  }, {
+					  }, 
+					  {
 					    conj: "AND",
-					    exprs: [{
+					    exprs: [
+					    {
 					      conj: "AND",
 					      exprs: [
 					        {conj: "AND", field: "DEPT_ID", op: "IN", values: [{value: 1, text: "总经办"}, {value: 2, text: "市场部"}]},
-					        {conj: "AND", field: "FEE_AMOUNT", op: "BETWEEN", values: [0, 1000]},
+					        {conj: "AND", field: "FEE_AMOUNT", op: "BETWEEN", values: [{value:0,text:0}, {value:1000,text:1000}]},
 					        {conj: "AND", field: "CREATE_USER_ROLE_ID", op: "IN", values: [{value: 1, text: "管理员"}, {value: 2, text: "市场主管"}]}
 					      ]
 					    }, {
