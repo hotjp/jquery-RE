@@ -1,0 +1,34 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+/*组*/
+.RE_group{
+	background-color: #fcf8e3;
+	padding: 5px 5px 5px 25px;
+	border: solid 1px #fcea8a;
+	background-image: 
+}
+.RE_group .group_conditions input.active,.rule_conditions input.active{
+	color: #ff5b53;
+}
+/*条件*/
+.RE_rule{
+	background-color: #fff;
+}
+.RE_rule .RE_rule_tit{
+
+}
+.RE_rule .RE_rule_body{
+
+}
+.RE_rule .rule_values input.error{
+	border-color: #f20
+}
+/*外框*/
+.RuleEditor{
+	background: none;
+    padding: 0;
+    border: none;
+}
