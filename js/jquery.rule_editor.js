@@ -204,9 +204,11 @@
 						needChange = true
 					}
 					el.find('.rule_values input[type=text]').each(function(i,el){
+						// TODO: 项目中正确的赋值后在这取值$(el).attr('data-text')，暂时用value填充text
+						
 						values[i] = {
 							value: toNumber(el,$(el).val(),needChange),
-							text: $(el).attr('data-text')
+							text: toNumber(el,$(el).val(),needChange)
 						}
 					})
 					return values;
@@ -247,7 +249,6 @@
 						type
 						)
 					);
-					
 
 			},
 			// 删除当前组或条件
@@ -446,7 +447,7 @@
 		}
 		// 原型方法
 		$.extend(fn,{
-			version: '0.0.1',
+			version: '0.0.2',
 			init: function() {
 				Util.construction();
 				Util.bindEvent();
