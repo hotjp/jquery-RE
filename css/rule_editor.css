@@ -16,6 +16,8 @@
 /*条件*/
 .RE_rule{
 	background-color: #fff;
+	margin: 5px;
+	border: solid 1px #fcea8a;
 }
 .RE_rule .RE_rule_tit{
 
@@ -31,4 +33,7 @@
 	background: none;
     padding: 0;
     border: none;
+}
+.RE_dialog{
+	background: #ccc
 }

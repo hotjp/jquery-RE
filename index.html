@@ -9,6 +9,10 @@
 	</head>
 	<body>
 		<script>
+		var dataCallback = function(data) {
+		  data = returnVal2Parent(data);
+		  list.getFrameData(data);
+		}
 			var list = new $.RuleEditor({
 				  // 业务模型数据
 					sysModel :{

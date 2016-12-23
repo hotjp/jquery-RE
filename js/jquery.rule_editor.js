@@ -288,6 +288,13 @@
 					_this.getRule(el);
 					_this.makeDom(el,JSON.parse(el.attr('data-rule')),'rule');
 				})
+				// values的input绑定事件，监听是否弹窗
+				.on('click','.rule_values input[type=text]',function(){
+					_RE.wait = this;
+					var dataSource = _this.getEventEl(this).find('.rule_field option:selected').attr('data-datasource');
+					var name =  dataSource.split(':')[1];
+					 return _RE.dialog(name);
+				})
 				// field切换事件
 				.on('change','.rule_field select',function(){
 					var el = _this.getEventEl(this);
@@ -443,6 +450,23 @@
 			},
 			distory: function(){
 				_RE.el.remove();
+			},
+			dialog: function(name){
+				var _RE = this.getRE();
+				var container = $('<div class="RE_dialog"></div>').css({'width': _RE.el.width() + 'px','height':_RE.el.height() + 'px'});
+				var iframe = $('<iframe frameborder="0" style="width:100%;height:100%"></iframe>')
+					    .attr("src", '../mpwf/workflowMasterData.action?masterData=' + name)
+					    .appendTo(container)
+					    .bind("load", function () {
+					      this.contentWindow.parentCallback = dataCallback;
+					    });
+				_RE.el.append(container);
+			},
+			getFrameData:function(obj){
+				$(_RE.wait).attr('data-text',obj.text).val(obj.value);
+			},
+			killDialog:function(){
+				_RE.el.find('.RE_dialog').remove();
 			}
 		}
 		// 原型方法
@@ -470,6 +494,13 @@
 			},
 			distory: function(){
 				Util.distory();
+			},
+			dialog: function(){
+				Util.dialog();
+			},
+			getFrameData: function(obj){
+				Util.getFrameData(obj);
+				Util.killDialog();
 			}
 		});
 		return this;
