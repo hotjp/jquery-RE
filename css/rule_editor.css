@@ -1,8 +1,19 @@
+@charset 'utf-8';
 *{
 	margin: 0;
 	padding: 0;
 }
-
+.RE_rule .RE_rule_tit>DIV,
+.RE_rule .RE_rule_body>DIV{
+	display: inline-block;
+	margin-right: 5px;
+}
+.RE_group .group_conditions input.active,.rule_conditions input.active{
+	color: #ff5b53;
+}
+.RE_group .group_conditions,.RE_rule_tit{
+	padding: 5px 0;
+}
 /*组*/
 .RE_group{
 	background-color: #fcf8e3;
@@ -10,30 +21,73 @@
 	border: solid 1px #fcea8a;
 	background-image: 
 }
-.RE_group .group_conditions input.active,.rule_conditions input.active{
-	color: #ff5b53;
-}
+
 /*条件*/
 .RE_rule{
 	background-color: #fff;
-	margin: 5px;
+	margin: 5px 0;
+	padding: 5px;
 	border: solid 1px #fcea8a;
 }
+
 .RE_rule .RE_rule_tit{
 
 }
 .RE_rule .RE_rule_body{
 
 }
+.RE_rule .rule_values input{
+	margin: 5px 0 5px 5px; 
+}
+.RE_rule .rule_values input[type=text]{
+	width: 80px;
+}
 .RE_rule .rule_values input.error{
-	border-color: #f20
+	border-color: solid 1px #f20;
+}
+.RE_rule .del_ipt{
+	display: inline-block;
+	padding: 0 5px;
+	margin-left: 5px;
+	background-color: #c0c0c0;
+	text-align : center;
+	line-height : 18px;
+	font-family : tahoma;
+	font-size : 12px;
+	color : #fff;
+	font-style: normal;
+	cursor: pointer;
 }
 /*外框*/
 .RuleEditor{
+	position: relative;
 	background: none;
     padding: 0;
     border: none;
 }
 .RE_dialog{
-	background: #ccc
+	position: absolute; 
+	left: 5px; 
+	top: 5px; 
+	right: 5px; 
+	bottom: 5px;
+	background: #e0e0e0;
 }
+.RE_dialog .closeDialog{
+	position: absolute;
+	top: -4px;
+	right: -4px;
+	display: block;
+	width: 20px;
+	height: 20px;
+	background-color: #333;
+	z-index: 2;
+	text-align : center;
+	line-height : 18px;
+	font-family : tahoma;
+	font-size : 12px;
+	color : #fff;
+	text-decoration : none;
+	border-radius : 15px;
+}
+

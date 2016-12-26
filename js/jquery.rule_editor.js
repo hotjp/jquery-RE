@@ -55,7 +55,7 @@
 								'</div>'+
 								'<input data-add="rule" type="button" value="添加条件">'+
 								'<input data-add="group" type="button" value="添加组">'+
-								'<input data-delete="group"  type="button" value="删除">'+
+								'<input data-delete="group"  type="button" value="删除" title="删除当前组">'+
 							'</dt>'+
 							'<dd class="RE_group_body">'+
 								'<ul class="RE_group_list">'+
@@ -87,24 +87,24 @@
 				rule:'<li class="RE_rule">'+
 						'<dl class="RE_item">'+
 							'<dt class="RE_rule_tit">'+
-								'<div class="rule_conditions">'+
+								'<div class="rule_conditions" title="条件类型">'+
 									'<input data-conj="AND" type="button" value="AND">'+
 									'<input data-conj="OR" type="button" value="OR">'+
 								'</div>'+
-								'<input data-delete="rule"  type="button" value="删除">'+
+								'<input data-delete="rule"  type="button" value="删除" title="删除当前条件">'+
 							'</dt>'+
 							'<dd class="RE_rule_body">'+
-								'<div class="rule_field">'+
+								'<div class="rule_field" title="筛选项">'+
 									'<select name="" id="">'+
 										'<option value="0">0</option>'+
 									'</select>'+
 								'</div>'+
-								'<div class="rule_op">'+
+								'<div class="rule_op" title="条件">'+
 									// '<select name="" id="">'+
 									// 	'<option value="0">0</option>'+
 									// '</select>'+
 								'</div>'+
-								'<div class="rule_values">'+
+								'<div class="rule_values" title="匹配值">'+
 
 								'</div>'+
 							'</dd>'+
@@ -207,8 +207,8 @@
 						// TODO: 项目中正确的赋值后在这取值$(el).attr('data-text')，暂时用value填充text
 						
 						values[i] = {
-							value: toNumber(el,$(el).val(),needChange),
-							text: toNumber(el,$(el).val(),needChange)
+							value: toNumber(el,$(el).attr("data-value"),needChange),
+							text: $(el).val() || $(el).attr("data-value")
 						}
 					})
 					return values;
@@ -292,8 +292,17 @@
 				.on('click','.rule_values input[type=text]',function(){
 					_RE.wait = this;
 					var dataSource = _this.getEventEl(this).find('.rule_field option:selected').attr('data-datasource');
-					var name =  dataSource.split(':')[1];
-					 return _RE.dialog(name);
+					// 主数据选择
+					if (/^MASTERDATA:.*$/.test(dataSource)) {
+						var name = dataSource.split(':')[1];
+						return _RE.dialog(name, function (data) {
+							// 数据选定回调
+							if (data) {
+								_this.getFrameData(data);
+							}
+							_this.killDialog();
+						});
+					}
 				})
 				// field切换事件
 				.on('change','.rule_field select',function(){
@@ -441,7 +450,7 @@
 							// }
 							var val = values[i] ? values[i] : {value:'',text:''}
 							if (0 == i) {button = ''}else{button = delBtn};
-							html[i] = '<input data-text="'+ val.text +'" type="text" value="'+ val.value +'">' + button;
+							html[i] = '<input data-value="'+ val.value +'" type="text" value="'+ val.text +'" maxlength="20">' + button;
 						};
 						html.push(btn);
 					return html.join('')
@@ -451,19 +460,28 @@
 			distory: function(){
 				_RE.el.remove();
 			},
-			dialog: function(name){
+			dialog: function(name, callback){
 				var _RE = this.getRE();
-				var container = $('<div class="RE_dialog"></div>').css({'width': _RE.el.width() + 'px','height':_RE.el.height() + 'px'});
-				var iframe = $('<iframe frameborder="0" style="width:100%;height:100%"></iframe>')
-					    .attr("src", '../mpwf/workflowMasterData.action?masterData=' + name)
-					    .appendTo(container)
+				var container = $('<div class="RE_dialog"></div>');
+				$('<a class="closeDialog" href="javascript:void(0)">x</a>')
+						.appendTo(container)
+						.click(function () {
+							container.remove();
+						});
+				var frameContainer = $("<div></div>").css({ position: "absolute", left: 0, top : 0, right : 0, bottom: 0, "z-index" : 1 }).appendTo(container);
+				var iframe = $('<iframe frameborder="0" style="width:100%;height:100%;"></iframe>')
+					    .attr("src", '../../mpwf/workflowMasterData.action?masterData=' + name)
+					    .appendTo(frameContainer)
 					    .bind("load", function () {
-					      this.contentWindow.parentCallback = dataCallback;
+					      this.contentWindow.parentCallback = function(data) {
+									callback(data);
+									returnVal2Parent(data);
+								};
 					    });
 				_RE.el.append(container);
 			},
 			getFrameData:function(obj){
-				$(_RE.wait).attr('data-text',obj.text).val(obj.value);
+				$(_RE.wait).attr('data-value',obj.value).val(obj.text).trigger("change");
 			},
 			killDialog:function(){
 				_RE.el.find('.RE_dialog').remove();
@@ -496,7 +514,10 @@
 				Util.distory();
 			},
 			dialog: function(){
-				Util.dialog();
+				Util.dialog.apply(Util, arguments);
+			},
+			distoryDialog: function(){
+				Util.killDialog();
 			},
 			getFrameData: function(obj){
 				Util.getFrameData(obj);
